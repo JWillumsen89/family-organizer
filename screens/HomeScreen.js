@@ -13,7 +13,7 @@ export default function HomeScreen() {
 
     return (
         <View style={MainStyle.container}>
-            <Text style={MainStyle.textStyle}>Home Screen</Text>
+            <Text style={MainStyle.textStyle}>Home Screen - Organizer</Text>
             <Text style={MainStyle.textStyle}>{userContext.userData.name}</Text>
             <Text style={MainStyle.textStyle}>{userContext.userData.email}</Text>
         </View>
