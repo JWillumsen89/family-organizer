@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import UserProvider from './components/UserContext.js';
+import AppContent from './AppContent';
+import { ThemeProvider } from './components/ThemeContext.js';
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    return (
+        <UserProvider>
+            <ThemeProvider>
+                <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <AppContent />
+                    </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
+            </ThemeProvider>
+        </UserProvider>
+    );
+}
