@@ -16,7 +16,6 @@ export default function HomeScreen() {
             <Text style={MainStyle.textStyle}>Home Screen</Text>
             <Text style={MainStyle.textStyle}>{userContext.userData.name}</Text>
             <Text style={MainStyle.textStyle}>{userContext.userData.email}</Text>
-            <Text style={MainStyle.textStyle}>{userContext.userData.userId}</Text>
         </View>
     );
 }
