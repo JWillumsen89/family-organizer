@@ -13,6 +13,7 @@ import { useDrawerStatus } from '@react-navigation/drawer';
 
 import HomeScreen from '../screens/HomeScreen';
 import OrganizersDashboardScreen from '../screens/OrganizersDashboardScreen.js';
+import TimelineScreen2 from '../screens/TimelineScreen2.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -170,6 +171,7 @@ export default function MyDrawer({ onLogout }) {
             drawerContent={props => <CustomDrawerContent {...props} onLogout={onLogout} toggleTheme={toggleTheme} />}
         >
             <Drawer.Screen name="Home" component={HomeScreen} options={{ ...headerStyle, title: 'Home' }} />
+            <Drawer.Screen name="TimelineScreen2" component={TimelineScreen2} options={{ ...headerStyle, title: 'Your Timeline' }} />
             <Drawer.Screen name="OrganizersDashboardScreen" component={OrganizersDashboardScreen} options={{ ...headerStyle, title: 'Organizers Dashboard' }} />
         </Drawer.Navigator>
     );

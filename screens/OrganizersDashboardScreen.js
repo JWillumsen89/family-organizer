@@ -6,7 +6,6 @@ import { getStyles } from '../styles/MainStyle.js';
 import { db, storage, app } from '../config/firebaseConfig.js';
 import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
-import { isLoaded } from 'expo-font';
 
 export default function OrganizersDashboardScreen({ navigation }) {
     const { theme } = useTheme();

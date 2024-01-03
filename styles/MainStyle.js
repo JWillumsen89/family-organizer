@@ -184,5 +184,107 @@ export const getStyles = theme => {
             color: themeColors.primaryText,
             fontSize: 16,
         },
+        agendaContainer: {
+            flex: 1,
+            backgroundColor: themeColors.background,
+            paddingTop: 0,
+        },
+        weekView: {
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            color: themeColors.primaryText,
+            // other styling as needed
+        },
+        dayColumn: {
+            flex: 1,
+            color: themeColors.primaryText,
+            borderWidth: 0.5,
+            borderColor: themeColors.accent,
+            // other styling as needed
+        },
+        dateHeader: {
+            fontWeight: 'bold',
+            color: themeColors.primaryText,
+            borderWidth: 0.5,
+            borderColor: themeColors.accent,
+            // other styling as needed
+        },
+        eventItem: {
+            color: themeColors.primaryText,
+            // styling for individual event items
+        },
+        navigationControls: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: themeColors.primaryText,
+            marginBottom: 20,
+            marginTop: -30,
+        },
+        todayButton: {
+            marginLeft: 25,
+            marginRight: 25,
+            fontSize: 20,
+            color: themeColors.primaryText,
+        },
+        resourceHeader: {
+            fontWeight: 'bold',
+            color: themeColors.primaryText,
+            borderWidth: 0.5,
+            borderColor: themeColors.accent,
+            // other styling as needed
+        },
+        dateColumnHeader: {
+            fontWeight: 'bold',
+            color: themeColors.primaryText,
+            borderWidth: 0.5,
+            borderColor: themeColors.accent,
+        },
+        dateColumn: {
+            width: 50,
+        },
+        resourceColumn: {
+            flexDirection: 'column',
+            flex: 1,
+        },
+        item: {
+            backgroundColor: 'white',
+            flex: 1,
+            borderRadius: 5,
+            padding: 10,
+            marginRight: 10,
+            marginTop: 20,
+        },
+        emptyDate: {
+            height: 15,
+            flex: 1,
+            paddingTop: 30,
+        },
+        customDay: {
+            margin: 10,
+            fontSize: 24,
+            color: 'green',
+        },
+        dayItem: {
+            marginLeft: 34,
+        },
+        todayButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            marginTop: 20,
+            backgroundColor: themeColors.accent,
+            borderRadius: 5,
+        },
+        todayButtonText: {
+            fontSize: 16,
+            color: themeColors.background,
+        },
+        monthTitle: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: themeColors.primaryText,
+        },
     }));
 };
