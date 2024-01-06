@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { UserContext } from '../components/UserContext.js';
+import { DataContext } from '../components/DataContext.js';
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import { db, storage, app } from '../config/firebaseConfig.js';
@@ -11,50 +12,20 @@ export default function OrganizersDashboardScreen({ navigation }) {
     const { theme } = useTheme();
     const MainStyle = getStyles(theme);
     const userContext = useContext(UserContext);
+    const { organizers } = useContext(DataContext);
     const [createdByOrganizers, setCreatedByOrganizers] = useState([]);
     const [sharedWithOrganizers, setSharedWithOrganizers] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchOrganizers = async () => {
-            //created by user
-            const createdByQuery = query(collection(db, 'organizers'), where('createdBy', '==', userContext.userData.email));
+        // Sort the organizers
+        const sortedCreatedByOrganizers = organizers.filter(org => org.createdBy === userContext.userData.email);
+        const sortedSharedWithOrganizers = organizers.filter(org => org.sharedWith?.includes(userContext.userData.email));
 
-            const [createdBySnapshot] = await Promise.all([getDocs(createdByQuery)]);
-
-            const createdByOrganizersSet = new Map();
-
-            createdBySnapshot.forEach(doc => {
-                createdByOrganizersSet.set(doc.id, { id: doc.id, ...doc.data() });
-            });
-
-            const sortedCreatedByOrganizers = Array.from(createdByOrganizersSet.values()).sort((a, b) => {
-                return a.name.localeCompare(b.name);
-            });
-
-            setCreatedByOrganizers(sortedCreatedByOrganizers);
-
-            //Shared with user
-            const sharedWithQuery = query(collection(db, 'organizers'), where('sharedWith', 'array-contains', userContext.userData.email));
-
-            const [sharedWithSnapshot] = await Promise.all([getDocs(sharedWithQuery)]);
-
-            const sharedWithOrganizersSet = new Map();
-
-            sharedWithSnapshot.forEach(doc => {
-                sharedWithOrganizersSet.set(doc.id, { id: doc.id, ...doc.data() });
-            });
-
-            const sortedSharedWithOrganizers = Array.from(sharedWithOrganizersSet.values()).sort((a, b) => {
-                return a.name.localeCompare(b.name);
-            });
-
-            setSharedWithOrganizers(sortedSharedWithOrganizers);
-            setLoading(false);
-        };
-
-        fetchOrganizers();
-    }, [userContext.userData.email]);
+        setCreatedByOrganizers(sortedCreatedByOrganizers);
+        setSharedWithOrganizers(sortedSharedWithOrganizers);
+        setLoading(false);
+    }, [organizers, userContext.userData.email]);
 
     return (
         <View style={loading ? MainStyle.container : MainStyle.organizersContainer}>

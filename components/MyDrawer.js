@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { TouchableOpacity, Text, View, Button, Dimensions, Platform } from 'react-native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { UserContext } from '../components/UserContext.js';
+import { DataContext } from '../components/DataContext.js';
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,7 +14,8 @@ import { useDrawerStatus } from '@react-navigation/drawer';
 
 import HomeScreen from '../screens/HomeScreen';
 import OrganizersDashboardScreen from '../screens/OrganizersDashboardScreen.js';
-import TimelineScreen2 from '../screens/TimelineScreen2.js';
+import TimelineScreen from '../screens/TimelineScreen.js';
+import EventCreateEditScreen from '../screens/EventCreateEditScreen.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,37 +26,12 @@ const dynamicFontSize = () => {
 
 function CustomDrawerContent(props) {
     const userContext = useContext(UserContext);
+    const { organizers } = useContext(DataContext);
     const { theme, toggleTheme } = useTheme();
-    const [organizers, setOrganizers] = useState([]);
+    const [createdByOrganizers, setCreatedByOrganizers] = useState(new Map());
+    const [sharedWithOrganizers, setSharedWithOrganizers] = useState(new Map());
 
     const iconName = theme === 'dark' ? 'moon' : 'sun';
-
-    useEffect(() => {
-        const fetchOrganizers = async () => {
-            const createdByQuery = query(collection(db, 'organizers'), where('createdBy', '==', userContext.userData.email));
-            const sharedWithQuery = query(collection(db, 'organizers'), where('sharedWith', 'array-contains', userContext.userData.email));
-
-            const [createdBySnapshot, sharedWithSnapshot] = await Promise.all([getDocs(createdByQuery), getDocs(sharedWithQuery)]);
-
-            const organizersSet = new Map();
-
-            createdBySnapshot.forEach(doc => {
-                organizersSet.set(doc.id, { id: doc.id, ...doc.data() });
-            });
-
-            sharedWithSnapshot.forEach(doc => {
-                organizersSet.set(doc.id, { id: doc.id, ...doc.data() });
-            });
-
-            const sortedOrganizers = Array.from(organizersSet.values()).sort((a, b) => {
-                return a.name.localeCompare(b.name);
-            });
-
-            setOrganizers(sortedOrganizers);
-        };
-
-        fetchOrganizers();
-    }, [userContext.userData.email]);
 
     const MainStyle = getStyles(theme);
     const logout = () => {
@@ -171,7 +148,16 @@ export default function MyDrawer({ onLogout }) {
             drawerContent={props => <CustomDrawerContent {...props} onLogout={onLogout} toggleTheme={toggleTheme} />}
         >
             <Drawer.Screen name="Home" component={HomeScreen} options={{ ...headerStyle, title: 'Home' }} />
-            <Drawer.Screen name="TimelineScreen2" component={TimelineScreen2} options={{ ...headerStyle, title: 'Your Timeline' }} />
+            <Drawer.Screen name="TimelineScreen" component={TimelineScreen} options={{ ...headerStyle, title: 'Your Timeline' }} />
+            <Drawer.Screen
+                name="EventCreateEditScreen"
+                component={EventCreateEditScreen}
+                options={{
+                    ...headerStyle,
+                    title: 'Create/Edit Event',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
             <Drawer.Screen name="OrganizersDashboardScreen" component={OrganizersDashboardScreen} options={{ ...headerStyle, title: 'Organizers Dashboard' }} />
         </Drawer.Navigator>
     );

@@ -9,6 +9,7 @@ export const darkThemeColors = {
     header: '#26413c',
     inputFields: '#0A2E2A',
     placeholderText: 'rgba(160, 172, 184, 0.5)',
+    cancelButton: '#6B2737',
 };
 
 export const lightThemeColors = {
@@ -20,6 +21,7 @@ export const lightThemeColors = {
     header: '#8ab0ab',
     inputFields: '#E6E9ED',
     placeholderText: 'rgba(199, 206, 212, 0.5)',
+    cancelButton: '#A04550',
 };
 
 export const getStyles = theme => {
@@ -31,6 +33,7 @@ export const getStyles = theme => {
             backgroundColor: themeColors.background,
             alignItems: 'center',
             justifyContent: 'center',
+            width: '100%',
         },
         textStyle: {
             color: themeColors.primaryText,
@@ -285,6 +288,148 @@ export const getStyles = theme => {
             fontSize: 16,
             fontWeight: 'bold',
             color: themeColors.primaryText,
+        },
+        formContainer: {
+            backgroundColor: themeColors.inputFields,
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: 10,
+            width: '90%',
+            marginTop: 30,
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 5,
+            paddingBottom: 50,
+        },
+        formInput: {
+            height: 50,
+            marginVertical: 8,
+            marginHorizontal: 12,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+            padding: 15,
+            width: '100%',
+            color: themeColors.primaryText,
+            backgroundColor: themeColors.background,
+            borderRadius: 4,
+            fontSize: 16,
+        },
+
+        formButton: {
+            backgroundColor: themeColors.secondaryText,
+            padding: 10,
+            borderRadius: 5,
+            width: '45%',
+            alignItems: 'center',
+        },
+        buttonContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginTop: 20,
+        },
+        cancelButton: {
+            backgroundColor: themeColors.cancelButton,
+            padding: 10,
+            borderRadius: 5,
+            width: '45%',
+            alignItems: 'center',
+        },
+        formButtonsText: {
+            color: themeColors.background,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        formLabel: {
+            color: themeColors.primaryText,
+            fontSize: 14,
+            fontWeight: 'bold',
+            // marginBottom: 5,
+        },
+        dropdown: {
+            height: 40,
+            margin: 4,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+            padding: 10,
+            width: '100%',
+            color: themeColors.primaryText,
+            backgroundColor: themeColors.inputFields,
+            borderRadius: 4,
+        },
+        dropdownLabel: {
+            position: 'absolute',
+            backgroundColor: 'white',
+            left: 22,
+            top: 8,
+            zIndex: 999,
+            paddingHorizontal: 8,
+            fontSize: 14,
+        },
+        dropdownPlaceholderStyle: {
+            fontSize: 16,
+            color: themeColors.placeholderText,
+        },
+        dropdownSelectedTextStyle: {
+            fontSize: 16,
+            color: themeColors.primaryText,
+        },
+        dropdownInputSearchStyle: {
+            height: 40,
+            fontSize: 16,
+            color: themeColors.primaryText,
+        },
+        dropdownItemStyle: {
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            backgroundColor: themeColors.background,
+            borderBottomColor: 'lightgrey',
+            borderBottomWidth: 1,
+        },
+        dropdownActiveItemStyle: {
+            color: themeColors.primaryText,
+        },
+        dropdownItemTextStyle: {
+            color: themeColors.primaryText,
+            marginHorizontal: 10,
+        },
+        rowContainer: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            marginBottom: 20,
+            marginTop: 4,
+            // paddingHorizontal: 12,
+        },
+
+        rowInput: {
+            flex: 1,
+            height: 40,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+            padding: 10,
+            color: themeColors.primaryText,
+            backgroundColor: themeColors.inputFields,
+            borderRadius: 4,
+            textAlign: 'center', // Center the text inside the input
+        },
+        formInput: {
+            height: 40,
+            margin: 18,
+            marginTop: 4,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+            padding: 10,
+            width: '100%',
+            color: themeColors.primaryText,
+            backgroundColor: themeColors.inputFields,
+            borderRadius: 4,
         },
     }));
 };

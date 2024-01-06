@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-native-community/datetimepicker": "7.2.0",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
+    "antd": "^5.12.7",
     "expo": "~49.0.15",
     "expo-font": "~11.4.0",
     "expo-status-bar": "~1.6.0",
@@ -21,6 +23,7 @@
     "react-native-big-calendar": "^4.9.0",
     "react-native-calendars": "^1.1303.0",
     "react-native-dotenv": "^3.4.9",
+    "react-native-element-dropdown": "^2.10.1",
     "react-native-navigation": "^7.37.2",
     "react-native-paper": "^5.11.6",
     "react-native-reanimated": "~3.3.0",
