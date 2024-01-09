@@ -11,11 +11,15 @@ import { db, storage, app } from '../config/firebaseConfig.js';
 import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { useDrawerStatus } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+import { showCustomToast } from '../components/CustomToast.js';
 
 import HomeScreen from '../screens/HomeScreen';
 import OrganizersDashboardScreen from '../screens/OrganizersDashboardScreen.js';
 import TimelineScreen from '../screens/TimelineScreen.js';
 import EventCreateEditScreen from '../screens/EventCreateEditScreen.js';
+import OrganizerScreen from '../screens/OrganizerScreen.js';
+import CreateOrganizerScreen from '../screens/CreateOrganizerScreen.js';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,12 +34,12 @@ function CustomDrawerContent(props) {
     const { theme, toggleTheme } = useTheme();
     const [createdByOrganizers, setCreatedByOrganizers] = useState(new Map());
     const [sharedWithOrganizers, setSharedWithOrganizers] = useState(new Map());
+    const navigation = useNavigation();
 
     const iconName = theme === 'dark' ? 'moon' : 'sun';
 
     const MainStyle = getStyles(theme);
     const logout = () => {
-        console.log('Logging out...');
         const userDataForStorage = {
             userId: null,
             email: null,
@@ -44,6 +48,7 @@ function CustomDrawerContent(props) {
         };
         userContext.setUserData(userDataForStorage);
         AsyncStorage.removeItem('userData');
+        showCustomToast({ type: 'success', text1: 'Success', text2: 'You are logged out!' });
     };
 
     const userProfileSection = (
@@ -70,7 +75,15 @@ function CustomDrawerContent(props) {
     const SubMenu = () => (
         <View style={{ paddingLeft: 20 }}>
             {organizers.map(organizer => (
-                <TouchableOpacity key={organizer.id} onPress={() => console.log(organizer.name)}>
+                <TouchableOpacity
+                    key={organizer.id}
+                    onPress={() => {
+                        props.navigation.navigate('OrganizerScreen', {
+                            organizerName: organizer.name,
+                            organizerId: organizer.id,
+                        });
+                    }}
+                >
                     <Text style={MainStyle.subMenuItem}>- {organizer.name}</Text>
                 </TouchableOpacity>
             ))}
@@ -155,6 +168,26 @@ export default function MyDrawer({ onLogout }) {
                 options={{
                     ...headerStyle,
                     title: 'Create/Edit Event',
+                    drawerItemStyle: { display: 'none' },
+                }}
+            />
+            <Drawer.Screen
+                name="OrganizerScreen"
+                component={OrganizerScreen}
+                options={({ route }) => ({
+                    ...headerStyle,
+                    title: route.params?.organizerName || 'Organizer',
+                    drawerItemStyle: { display: 'none' },
+                    organizerId: route.params?.organizerId,
+                    key: route.params?.organizerId,
+                })}
+            />
+            <Drawer.Screen
+                name="CreateOrganizerScreen"
+                component={CreateOrganizerScreen}
+                options={{
+                    ...headerStyle,
+                    title: 'Create/Edit Organizer',
                     drawerItemStyle: { display: 'none' },
                 }}
             />

@@ -27,12 +27,22 @@ export default function OrganizersDashboardScreen({ navigation }) {
         setLoading(false);
     }, [organizers, userContext.userData.email]);
 
+    const onCreateOrganizerPressed = () => {
+        navigation.navigate('CreateOrganizerScreen', {
+            backScreen: 'OrganizersDashboardScreen',
+            type: 'add',
+        });
+    };
+
     return (
         <View style={loading ? MainStyle.container : MainStyle.organizersContainer}>
             {loading ? (
                 <ActivityIndicator size="large" color={MainStyle.accent} />
             ) : (
                 <>
+                    <TouchableOpacity onPress={onCreateOrganizerPressed}>
+                        <Text style={MainStyle.titleStyle}>Create Organizer</Text>
+                    </TouchableOpacity>
                     {createdByOrganizers.length === 0 ? (
                         <Text style={MainStyle.titleStyle}>No organizers created by you yet.</Text>
                     ) : (
@@ -41,7 +51,16 @@ export default function OrganizersDashboardScreen({ navigation }) {
                             <View style={MainStyle.scrollViewContainer}>
                                 <ScrollView>
                                     {createdByOrganizers.map((organizer, index) => (
-                                        <TouchableOpacity key={index} style={MainStyle.organizerItem} onPress={() => console.log(organizer.id)}>
+                                        <TouchableOpacity
+                                            key={organizer.id}
+                                            style={MainStyle.organizerItem}
+                                            onPress={() => {
+                                                navigation.navigate('OrganizerScreen', {
+                                                    organizerName: organizer.name,
+                                                    organizerId: organizer.id,
+                                                });
+                                            }}
+                                        >
                                             <Text style={MainStyle.organizerItemTextStyle}>{organizer.name}</Text>
                                         </TouchableOpacity>
                                     ))}
@@ -58,7 +77,16 @@ export default function OrganizersDashboardScreen({ navigation }) {
                             <View style={MainStyle.scrollViewContainer}>
                                 <ScrollView>
                                     {sharedWithOrganizers.map((organizer, index) => (
-                                        <TouchableOpacity key={index} style={MainStyle.organizerItem} onPress={() => console.log(organizer.id)}>
+                                        <TouchableOpacity
+                                            key={organizer.id}
+                                            style={MainStyle.organizerItem}
+                                            onPress={() => {
+                                                navigation.navigate('OrganizerScreen', {
+                                                    organizerName: organizer.name,
+                                                    organizerId: organizer.id,
+                                                });
+                                            }}
+                                        >
                                             <Text style={MainStyle.organizerItemTextStyle}>{organizer.name}</Text>
                                         </TouchableOpacity>
                                     ))}

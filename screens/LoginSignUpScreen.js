@@ -9,6 +9,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } fr
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import Feather from 'react-native-vector-icons/Feather';
+import { showCustomToast } from '../components/CustomToast.js';
 
 import { MY_USER_EMAIL, MY_USER_PASSWORD } from '@env';
 
@@ -31,7 +32,6 @@ export default function LoginSignUpScreen() {
     const login = async () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            alert("You're logged in!");
 
             const userDocRef = doc(db, 'userData', email);
             const userDoc = await getDoc(userDocRef);
@@ -44,19 +44,20 @@ export default function LoginSignUpScreen() {
             };
             userContext.setUserData(userDataForStorage);
             await AsyncStorage.setItem('userData', JSON.stringify(userDataForStorage));
+            showCustomToast({ type: 'success', text1: 'Success', text2: 'You are logged in!' });
         } catch (error) {
-            alert(error.message);
+            showCustomToast({ type: 'error', text1: 'Error', text2: error.message });
         }
     };
 
     const signUp = async () => {
         if (password !== confirmPassword) {
-            alert('Passwords do not match');
+            showCustomToast({ type: 'error', text1: 'Error', text2: 'Passwords do not match' });
             return;
         }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            alert("You're signed up!");
+            showCustomToast({ type: 'success', text1: 'Success', text2: 'You are signed up and logged in!' });
 
             const userDocRef = doc(db, 'userData', email);
             await setDoc(userDocRef, {
@@ -73,7 +74,7 @@ export default function LoginSignUpScreen() {
             userContext.setUserData(userDataForStorage);
             await AsyncStorage.setItem('userData', JSON.stringify(userDataForStorage));
         } catch (error) {
-            alert(error.message);
+            showCustomToast({ type: 'error', text1: 'Error', text2: error.message });
         }
     };
 

@@ -5,7 +5,12 @@ import { DataProvider } from './components/DataContext.js';
 import AppContent from './AppContent';
 import { ThemeProvider } from './components/ThemeContext.js';
 
+
+
 export default function App() {
+    
+
+    
     return (
         <UserProvider>
             <DataProvider>
