@@ -2,28 +2,10 @@ import Toast, { BaseToast } from 'react-native-toast-message';
 
 // Custom toast configuration
 const toastConfig = {
-    success: props => (
-        <BaseToast
-            {...props}
-            // style={{ backgroundColor: '#1C1C1E', borderLeftColor: '#FFA726' }}
-            // contentContainerStyle={{ paddingHorizontal: 15 }}
-            // text1Style={{ color: '#FFA726' }}
-            // text2Style={{ color: '#FFFFFF' }}
-        />
-    ),
-    error: props => (
-        <BaseToast
-            {...props}
-            style={{ backgroundColor: '#1C1C1E', borderLeftColor: '#D32F2F' }}
-            contentContainerStyle={{ paddingHorizontal: 15 }}
-            text1Style={{ color: '#D32F2F' }}
-            text2Style={{ color: '#FFFFFF' }}
-        />
-    ),
-    // You can add more custom types if needed
+    success: props => <BaseToast {...props} />,
+    error: props => <BaseToast {...props} />,
 };
 
-// Export the function to show custom toasts
 export const showCustomToast = ({ type, text1, text2 }) => {
     Toast.show({
         type: type,

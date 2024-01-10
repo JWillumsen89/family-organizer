@@ -18,8 +18,8 @@ export default function LoginSignUpScreen() {
     const { theme } = useTheme();
     const MainStyle = getStyles(theme);
 
-    const [email, setEmail] = useState(MY_USER_EMAIL);
-    const [password, setPassword] = useState(MY_USER_PASSWORD);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(false);
@@ -27,6 +27,10 @@ export default function LoginSignUpScreen() {
 
     const toggleSignUp = () => {
         setIsSignUp(!isSignUp);
+    };
+
+    const handleSetEmail = input => {
+        setEmail(input.toLowerCase());
     };
 
     const login = async () => {
@@ -46,7 +50,13 @@ export default function LoginSignUpScreen() {
             await AsyncStorage.setItem('userData', JSON.stringify(userDataForStorage));
             showCustomToast({ type: 'success', text1: 'Success', text2: 'You are logged in!' });
         } catch (error) {
-            showCustomToast({ type: 'error', text1: 'Error', text2: error.message });
+            let errorMessage1 = 'An unexpected error occurred.';
+            let errorMessage2 = 'Please try again.';
+            if (error.code === 'auth/invalid-credential') {
+                errorMessage1 = 'Invalid email or password.';
+                errorMessage2 = 'Please check your credentials.';
+            }
+            showCustomToast({ type: 'error', text1: errorMessage1, text2: errorMessage2 });
         }
     };
 
@@ -74,17 +84,21 @@ export default function LoginSignUpScreen() {
             userContext.setUserData(userDataForStorage);
             await AsyncStorage.setItem('userData', JSON.stringify(userDataForStorage));
         } catch (error) {
-            showCustomToast({ type: 'error', text1: 'Error', text2: error.message });
+            let errorMessage = 'An unexpected error occurred. Please try again.';
+            if (error.code === 'auth/invalid-credential') {
+                errorMessage = 'Invalid email or password format.';
+            }
+            showCustomToast({ type: 'error', text1: 'Sign Up Error', text2: errorMessage });
         }
     };
 
     return (
-        <View style={MainStyle.container}>
+        <View style={[MainStyle.container, { padding: 20 }]}>
             <Text style={MainStyle.appName}>Family Organizer</Text>
             <Text style={[MainStyle.textStyle, { fontSize: 20 }]}>{isSignUp ? 'Sign Up' : 'Login'}</Text>
             <TextInput
                 style={MainStyle.input}
-                onChangeText={setEmail}
+                onChangeText={handleSetEmail}
                 value={email}
                 placeholder="Enter your email..."
                 keyboardType="email-address"

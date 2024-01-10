@@ -10,6 +10,7 @@ import { db, storage, app } from '../config/firebaseConfig.js';
 import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import LoadingScreen from './LoadingScreen.js';
+import { getInitials } from '../utils/getInitials.js';
 
 const timeToString = time => {
     const date = new Date(time);
@@ -20,6 +21,7 @@ export default function OrganizerScreen({ navigation, route }) {
     const { theme } = useTheme();
     const MainStyle = getStyles(theme);
     const [events, setEvents] = useState({});
+    const { organizers } = useContext(DataContext);
     const [isLoading, setIsLoading] = useState(false);
     const [currentMonth, setCurrentMonth] = useState('');
     const [selectedDay, setSelectedDay] = useState(timeToString(new Date().getTime()));
@@ -36,6 +38,16 @@ export default function OrganizerScreen({ navigation, route }) {
         const year = today.getFullYear();
         setCurrentMonth(`${monthName} ${year}`);
     }, []);
+
+    useEffect(() => {
+        // Check if the organizer exists in the context
+        const organizerExists = organizers.some(organizer => organizer.id === organizerId);
+
+        // If the organizer does not exist, navigate back to the dashboard
+        if (!organizerExists) {
+            navigation.navigate('OrganizersDashboardScreen');
+        }
+    }, [organizers, organizerId, navigation]);
 
     let fetchDataOutsideFocusEffect;
 
@@ -212,15 +224,6 @@ export default function OrganizerScreen({ navigation, route }) {
             backgroundColor: item.color,
         };
 
-        // Gets intials from username
-        const getInitials = name => {
-            let initials = name
-                .split(' ')
-                .map(word => word[0])
-                .join('');
-            return initials.length > 2 ? initials.substring(0, 2) : initials;
-        };
-
         const initials = getInitials(item.username);
 
         return (
@@ -275,12 +278,18 @@ export default function OrganizerScreen({ navigation, route }) {
                         <View style={{ flex: 1 }}>
                             <View style={{ alignItems: 'center', padding: 10, backgroundColor: MainStyle.background }}>
                                 <Text style={MainStyle.monthTitle}>{currentMonth}</Text>
-                                <TouchableOpacity style={MainStyle.todayButton} onPress={goToToday}>
+                                <TouchableOpacity style={[MainStyle.todayButton, {}]} onPress={goToToday}>
                                     <Text style={MainStyle.todayButtonText}>Today</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={onAddEventPressed}>
-                                    <Feather name="plus" size={24} color={MainStyle.accent} />
-                                </TouchableOpacity>
+                                <View style={{ marginLeft: 'auto' }}>
+                                    <TouchableOpacity
+                                        onPress={onAddEventPressed}
+                                        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
+                                    >
+                                        <Feather name="plus" size={24} color={MainStyle.accent} />
+                                        <Text style={[MainStyle.textStyle]}>Add Event</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                             <View style={[MainStyle.agendaContainer]}>
                                 <Agenda

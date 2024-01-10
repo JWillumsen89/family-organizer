@@ -7,12 +7,9 @@ import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import Feather from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { db, storage, app } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { useDrawerStatus } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
 import { showCustomToast } from '../components/CustomToast.js';
+import { getInitials } from '../utils/getInitials.js';
 
 import HomeScreen from '../screens/HomeScreen';
 import OrganizersDashboardScreen from '../screens/OrganizersDashboardScreen.js';
@@ -32,9 +29,6 @@ function CustomDrawerContent(props) {
     const userContext = useContext(UserContext);
     const { organizers } = useContext(DataContext);
     const { theme, toggleTheme } = useTheme();
-    const [createdByOrganizers, setCreatedByOrganizers] = useState(new Map());
-    const [sharedWithOrganizers, setSharedWithOrganizers] = useState(new Map());
-    const navigation = useNavigation();
 
     const iconName = theme === 'dark' ? 'moon' : 'sun';
 
@@ -51,9 +45,13 @@ function CustomDrawerContent(props) {
         showCustomToast({ type: 'success', text1: 'Success', text2: 'You are logged out!' });
     };
 
+    const initials = getInitials(userContext.userData.name);
+
     const userProfileSection = (
         <View style={MainStyle.userProfileSection}>
-            <View style={MainStyle.avatarCircle}>{/* Add an image here in the future */}</View>
+            <View style={MainStyle.drawerAvatarCircle}>
+                <Text style={{ color: MainStyle.primaryText, fontWeight: 'bold' }}>{initials}</Text>
+            </View>
             <Text style={MainStyle.usernameText}>{userContext.userData.name}</Text>
             <Text style={MainStyle.userEmail}>{userContext.userData.email}</Text>
         </View>
@@ -138,7 +136,7 @@ export default function MyDrawer({ onLogout }) {
         headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: dynamicFontSize(),
-            letterSpacing: 2,
+            letterSpacing: 1,
         },
         headerTitleAlign: 'center',
     };
@@ -187,7 +185,7 @@ export default function MyDrawer({ onLogout }) {
                 component={CreateOrganizerScreen}
                 options={{
                     ...headerStyle,
-                    title: 'Create/Edit Organizer',
+                    title: 'Create Organizer',
                     drawerItemStyle: { display: 'none' },
                 }}
             />

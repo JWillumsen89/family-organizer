@@ -40,7 +40,6 @@ const EventCreateEditScreen = ({ navigation, route }) => {
     const [showStartTimePicker, setShowStartTimePicker] = useState(Platform.OS === 'ios');
     const [showEndTimePicker, setShowEndTimePicker] = useState(Platform.OS === 'ios');
 
-    const predefinedColors = ['purple', 'red', 'blue', 'green', 'orange', 'pink'];
     const scrollViewRef = useRef();
 
     const data = [
@@ -48,19 +47,11 @@ const EventCreateEditScreen = ({ navigation, route }) => {
         { label: 'Red', value: 'red' },
         { label: 'Blue', value: 'blue' },
         { label: 'Green', value: 'green' },
-        { label: 'Yellow', value: 'yellow' },
         { label: 'Orange', value: 'orange' },
         { label: 'Pink', value: 'pink' },
     ];
 
     const [isFocus, setIsFocus] = useState(false);
-
-    const renderLabel = () => {
-        if (value || isFocus) {
-            return <Text style={[MainStyle.dropdownLabel, isFocus && { color: MainStyle.accent }]}>Dropdown label</Text>;
-        }
-        return null;
-    };
 
     useEffect(() => {
         if (route.params?.item) {
@@ -102,6 +93,29 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             title: isEditing ? 'Edit Event' : 'Create Event',
         });
     }, [navigation, route.params, isEditing]);
+
+    useEffect(() => {
+        // Only run this effect when creating a new event
+        if (!isEditing) {
+            // Set end time to one hour after start time
+            if (startTime) {
+                const [hours, minutes] = startTime.split(':').map(Number);
+                const endTime = new Date(2024, 0, 1, hours, minutes);
+                endTime.setHours(endTime.getHours() + 1);
+                setEndTime(formatTime(endTime));
+            }
+        }
+    }, [startTime, isEditing]); // Dependencies array includes startTime and isEditing
+
+    useEffect(() => {
+        // Only run this effect when creating a new event
+        if (!isEditing) {
+            // Set end date to the same as start date
+            if (startDate) {
+                setEndDate(new Date(startDate));
+            }
+        }
+    }, [startDate, isEditing]); // Dependencies array includes startDate and isEditing
 
     const formatDate = date => {
         if (!date) return '';
@@ -183,8 +197,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             loopDate.setDate(loopDate.getDate() + 1);
         }
 
-        const backScreen = route.params?.backScreen || 'HomeScreen';
-        navigation.navigate(backScreen);
+        navigateToScreen();
         setIsLoading(false);
     };
 
@@ -233,12 +246,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             console.error('Error updating document: ', e);
         }
 
-        const backScreen = route.params?.backScreen || 'HomeScreen';
-        if (route.params?.organizerId) {
-            navigation.navigate(backScreen, { organizerId: route.params?.organizerId, organizerName: route.params?.organizerName });
-        } else {
-            navigation.navigate(backScreen);
-        }
+        navigateToScreen();
     };
 
     const getDatesInRange = (startDate, endDate) => {
@@ -305,15 +313,6 @@ const EventCreateEditScreen = ({ navigation, route }) => {
         }
     };
 
-    const handleCancel = () => {
-        const backScreen = route.params?.backScreen || 'HomeScreen';
-        if (route.params?.organizerId) {
-            navigation.navigate(backScreen, { organizerId: route.params?.organizerId, organizerName: route.params?.organizerName });
-        } else {
-            navigation.navigate(backScreen);
-        }
-    };
-
     const onChangeStartDate = (event, selectedDate) => {
         if (Platform.OS === 'android') {
             setShowStartDatePicker(false);
@@ -376,30 +375,6 @@ const EventCreateEditScreen = ({ navigation, route }) => {
         }
     };
 
-    const showStartDatePickerAndroid = () => {
-        if (Platform.OS === 'android') {
-            setShowStartDatePicker(true);
-        }
-    };
-
-    const showEndDatePickerAndroid = () => {
-        if (Platform.OS === 'android') {
-            setShowEndDatePicker(true);
-        }
-    };
-
-    const showStartTimePickerAndroid = () => {
-        if (Platform.OS === 'android') {
-            setShowStartTimePicker(true);
-        }
-    };
-
-    const showEndTimePickerAndroid = () => {
-        if (Platform.OS === 'android') {
-            setShowEndTimePicker(true);
-        }
-    };
-
     const deleteAllEventsWithSameParentEventId = async () => {
         setIsLoading(true);
         try {
@@ -412,17 +387,21 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             }
 
             showCustomToast({ type: 'success', text1: 'Success!', text2: 'Event and related events deleted.' });
-            const backScreen = route.params?.backScreen || 'HomeScreen';
-            if (route.params?.organizerId) {
-                navigation.navigate(backScreen, { organizerId: route.params?.organizerId, organizerName: route.params?.organizerName });
-            } else {
-                navigation.navigate(backScreen);
-            }
+            navigateToScreen();
         } catch (error) {
             console.error('Error deleting events: ', error);
             showCustomToast({ type: 'error', text1: 'Error!', text2: 'Failed to delete the event.' });
         }
         setIsLoading(false);
+    };
+
+    const navigateToScreen = () => {
+        const backScreen = route.params?.backScreen || 'HomeScreen';
+        const organizerId = route.params?.organizerId;
+        const organizerName = route.params?.organizerName;
+
+        const navigationParams = organizerId ? { organizerId, organizerName } : {};
+        navigation.navigate(backScreen, navigationParams);
     };
 
     const showDeleteConfirmation = () => {
@@ -438,6 +417,12 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             ],
             { cancelable: true }
         );
+    };
+
+    const showPickerAndroid = setPickerState => {
+        if (Platform.OS === 'android') {
+            setPickerState(true);
+        }
     };
 
     return (
@@ -484,7 +469,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
                         <View style={MainStyle.rowContainer}>
                             {Platform.OS === 'android' && (
                                 <View>
-                                    <TouchableOpacity onPress={showStartTimePickerAndroid}>
+                                    <TouchableOpacity onPress={() => showPickerAndroid(setShowStartTimePicker)}>
                                         <TextInput style={MainStyle.androidInputField} value={startTime} editable={false} />
                                     </TouchableOpacity>
                                 </View>
@@ -503,7 +488,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
 
                             {Platform.OS === 'android' && (
                                 <View>
-                                    <TouchableOpacity onPress={showEndTimePickerAndroid}>
+                                    <TouchableOpacity onPress={() => showPickerAndroid(setShowEndTimePicker)}>
                                         <TextInput style={MainStyle.androidInputField} value={endTime} editable={false} />
                                     </TouchableOpacity>
                                 </View>
@@ -524,7 +509,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
                         <View style={MainStyle.rowContainer}>
                             {Platform.OS === 'android' && (
                                 <View>
-                                    <TouchableOpacity onPress={showStartDatePickerAndroid}>
+                                    <TouchableOpacity onPress={() => showPickerAndroid(setShowStartDatePicker)}>
                                         <TextInput style={MainStyle.androidInputField} value={formatDate(startDate)} editable={false} />
                                     </TouchableOpacity>
                                 </View>
@@ -535,7 +520,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
 
                             {Platform.OS === 'android' && (
                                 <View>
-                                    <TouchableOpacity onPress={showEndDatePickerAndroid}>
+                                    <TouchableOpacity onPress={() => showPickerAndroid(setShowEndDatePicker)}>
                                         <TextInput style={MainStyle.androidInputField} value={formatDate(endDate)} editable={false} />
                                     </TouchableOpacity>
                                 </View>
@@ -602,7 +587,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
                             <TouchableOpacity style={MainStyle.formButton} onPress={isEditing ? handleUpdateSubmit : handleNewSubmit}>
                                 <Text style={MainStyle.formButtonsText}>{isEditing ? 'Save Changes' : 'Create Event'}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={MainStyle.cancelButton} onPress={handleCancel}>
+                            <TouchableOpacity style={MainStyle.cancelButton} onPress={navigateToScreen}>
                                 <Text style={MainStyle.formButtonsText}>Cancel</Text>
                             </TouchableOpacity>
                         </View>

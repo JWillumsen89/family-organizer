@@ -36,67 +36,6 @@ export const fetchData = (userEmail, setOrganizers, organizers) => {
     return unsubscribe;
 };
 
-// export const fetchEvents = (userEmail, setItems, items) => {
-//     const eventsRef = collection(db, 'events');
-//     const q = query(eventsRef, where('creator', '==', userEmail));
-
-//     const handleSnapshotUpdate = snapshot => {
-//         let fetchedEvents = {};
-
-//         snapshot.docChanges().forEach(change => {
-//             const eventData = change.doc.data();
-//             const dateStr = eventData.day;
-
-//             if (!fetchedEvents[dateStr]) {
-//                 fetchedEvents[dateStr] = [];
-//             }
-
-//             if (change.type === 'added' || change.type === 'modified') {
-//                 fetchedEvents[dateStr].push({
-//                     id: change.doc.id,
-//                     name: eventData.name,
-//                     height: 120,
-//                     description: eventData.description,
-//                     day: dateStr,
-//                     startDate: eventData.start_date,
-//                     endDate: eventData.end_date,
-//                     color: eventData.color,
-//                     startTime: eventData.start_time,
-//                     endTime: eventData.end_time,
-//                     organizers: eventData.organizers,
-//                     creator: eventData.creator,
-//                     parentEventId: eventData.parentEventId,
-//                 });
-//             }
-
-//             if (change.type === 'removed') {
-//                 fetchedEvents[dateStr] = fetchedEvents[dateStr].filter(event => event.name !== eventData.name);
-//             }
-//         });
-
-//         for (const date in fetchedEvents) {
-//             fetchedEvents[date] = sortEventsByTime(fetchedEvents[date]);
-//         }
-
-//         setItems(currentItems => {
-//             const updatedItems = { ...currentItems };
-
-//             for (const date in fetchedEvents) {
-//                 if (!updatedItems[date]) {
-//                     updatedItems[date] = [];
-//                 }
-//                 const existingEventsForDate = updatedItems[date].filter(event => !fetchedEvents[date].some(newEvent => newEvent.id === event.id));
-//                 updatedItems[date] = [...existingEventsForDate, ...fetchedEvents[date]];
-//             }
-
-//             return updatedItems;
-//         });
-//     };
-
-//     const unsubscribe = onSnapshot(q, handleSnapshotUpdate);
-
-//     return unsubscribe;
-// };
 
 export const fetchEventsForOrganizers = (setItemsForOrganizer, organizers) => {
     const eventsRef = collection(db, 'events');

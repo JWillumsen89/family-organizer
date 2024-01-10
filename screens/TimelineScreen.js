@@ -9,7 +9,6 @@ import LoadingScreen from './LoadingScreen.js';
 import { db } from '../config/firebaseConfig.js';
 import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
-
 const timeToString = time => {
     const date = new Date(time);
     return date.toISOString().split('T')[0];
@@ -38,6 +37,7 @@ export default function TimelineScreen({ navigation }) {
         const unsubscribe = navigation.addListener('focus', async () => {
             setIsLoading(true);
             await fetchEvents();
+
             setIsLoading(false);
         });
 
@@ -98,7 +98,6 @@ export default function TimelineScreen({ navigation }) {
     };
 
     const openEvent = item => {
-
         let parentEventItems = [];
         Object.values(events).forEach(eventsOnDate => {
             parentEventItems.push(...eventsOnDate.filter(event => event.parentEventId === item.parentEventId));
@@ -197,9 +196,12 @@ export default function TimelineScreen({ navigation }) {
                         <TouchableOpacity style={MainStyle.todayButton} onPress={goToToday}>
                             <Text style={MainStyle.todayButtonText}>Today</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={onAddEventPressed}>
-                            <Feather name="plus" size={24} color={MainStyle.accent} />
-                        </TouchableOpacity>
+                        <View style={{ marginLeft: 'auto' }}>
+                            <TouchableOpacity onPress={onAddEventPressed} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <Feather name="plus" size={24} color={MainStyle.accent} />
+                                <Text style={[MainStyle.textStyle]}>Add Event</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={[MainStyle.agendaContainer]}>
                         <Agenda

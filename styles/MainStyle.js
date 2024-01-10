@@ -13,14 +13,15 @@ export const darkThemeColors = {
 };
 
 export const lightThemeColors = {
-    background: '#f0f4f8',
+    // background: '#f0f4f8',
+    background: '#ccebd2',
     primaryText: '#26413c',
     secondaryText: '#506f76',
     accent: '#26413c',
     avatarBackground: '#b0c4d0',
     header: '#8ab0ab',
-    inputFields: '#E6E9ED',
-    placeholderText: 'rgba(199, 206, 212, 0.5)',
+    inputFields: '#e6efeb',
+    placeholderTextColor: 'rgba(150, 150, 150, 0.7)',
     cancelButton: '#A04550',
 };
 
@@ -53,6 +54,15 @@ export const getStyles = theme => {
             borderColor: themeColors.accent,
             borderRadius: 4,
             margin: 10,
+            marginBottom: 10,
+        },
+        drawerAvatarCircle: {
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            backgroundColor: themeColors.avatarBackground,
+            justifyContent: 'center', // Centrerer indholdet vertikalt
+            alignItems: 'center', // Centrerer indholdet horisontalt
             marginBottom: 10,
         },
         avatarCircle: {
@@ -150,7 +160,7 @@ export const getStyles = theme => {
             paddingBottom: 5,
             paddingLeft: 25,
             fontSize: 16,
-            color: themeColors.accent,
+            color: themeColors.secondaryText,
             fontFamily: Platform.OS === 'ios' ? 'Helvetica' : 'Roboto',
             fontWeight: Platform.OS === 'ios' ? 'bold' : 'normal',
         },
@@ -190,6 +200,23 @@ export const getStyles = theme => {
         organizerItemTextStyle: {
             color: themeColors.primaryText,
             fontSize: 16,
+        },
+        createdByYouOrganizerItem: {
+            backgroundColor: themeColors.background,
+            padding: 10,
+            marginVertical: 5,
+            borderRadius: 6,
+            flex: 1,
+            alignItems: 'center',
+        },
+        createdByYouDeleteIconContainer: {
+            padding: 10,
+            justifyContent: 'center',
+        },
+        organizerRow: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
         },
         agendaContainer: {
             flex: 1,
@@ -294,7 +321,7 @@ export const getStyles = theme => {
             color: themeColors.primaryText,
         },
         formContainer: {
-            backgroundColor: themeColors.inputFields,
+            backgroundColor: themeColors.background,
             alignItems: 'center',
             justifyContent: 'flex-start',
             padding: 10,
@@ -310,20 +337,6 @@ export const getStyles = theme => {
             elevation: 5,
             paddingBottom: 50,
         },
-        // formInput: {
-        //     height: 50,
-        //     marginVertical: 8,
-        //     marginHorizontal: 12,
-        //     borderWidth: 1,
-        //     borderColor: themeColors.accent,
-        //     padding: 15,
-        //     width: '100%',
-        //     color: themeColors.primaryText,
-        //     backgroundColor: themeColors.background,
-        //     borderRadius: 4,
-        //     fontSize: 16,
-        // },
-
         formButton: {
             backgroundColor: themeColors.secondaryText,
             padding: 10,
@@ -346,7 +359,7 @@ export const getStyles = theme => {
         },
         formButtonsText: {
             color: themeColors.background,
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: 'bold',
         },
         formLabel: {
@@ -504,6 +517,44 @@ export const getStyles = theme => {
             shadowOpacity: 0.1,
             shadowRadius: 4,
             elevation: 5,
+        },
+        emailListItem: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: themeColors.inputFields,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingVertical: 8,
+            marginVertical: 4,
+            borderRadius: 4,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+        },
+        emailText: {
+            color: themeColors.primaryText,
+            fontSize: 16,
+            width: '90%',
+        },
+        removeEmailIcon: {
+            paddingLeft: 5,
+            paddingRight: 5,
+        },
+        addEmailButton: {
+            backgroundColor: themeColors.accent,
+            padding: 10,
+            borderRadius: 5,
+            width: '28%',
+            alignItems: 'center',
+            marginTop: -10,
+            marginBottom: 10,
+        },
+        headerContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 10,
+            backgroundColor: themeColors.background,
         },
     }));
 };
