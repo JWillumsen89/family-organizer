@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../components/ThemeContext.js';
 import { DataContext } from '../components/DataContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import Feather from 'react-native-vector-icons/Feather';
 import { Agenda } from 'react-native-calendars';
-import { db, storage, app } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { db } from '../config/firebaseConfig.js';
+import { getDocs, collection, onSnapshot, query } from 'firebase/firestore';
 import LoadingScreen from './LoadingScreen.js';
 import { getInitials } from '../utils/getInitials.js';
 

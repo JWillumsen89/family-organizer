@@ -7,7 +7,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { Agenda } from 'react-native-calendars';
 import LoadingScreen from './LoadingScreen.js';
 import { db } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { getDocs, collection, query, where } from 'firebase/firestore';
 
 const timeToString = time => {
     const date = new Date(time);

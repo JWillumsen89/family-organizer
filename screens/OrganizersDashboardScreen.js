@@ -4,9 +4,8 @@ import { UserContext } from '../components/UserContext.js';
 import { DataContext } from '../components/DataContext.js';
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
-import { db, storage, app } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { db } from '../config/firebaseConfig.js';
+import { doc, getDocs, getDoc, collection, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import Feather from 'react-native-vector-icons/Feather';
 
 export default function OrganizersDashboardScreen({ navigation }) {

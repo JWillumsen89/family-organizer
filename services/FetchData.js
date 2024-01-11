@@ -1,6 +1,6 @@
 // fetchData.js
 import { db } from '../config/firebaseConfig';
-import { query, collection, where, onSnapshot } from 'firebase/firestore';
+import { query, collection, onSnapshot } from 'firebase/firestore';
 
 export const fetchData = (userEmail, setOrganizers, organizers) => {
     let currentOrganizers = new Map(organizers.map(org => [org.id, org]));
@@ -35,7 +35,6 @@ export const fetchData = (userEmail, setOrganizers, organizers) => {
 
     return unsubscribe;
 };
-
 
 export const fetchEventsForOrganizers = (setItemsForOrganizer, organizers) => {
     const eventsRef = collection(db, 'events');

@@ -1,17 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { UserContext } from '../components/UserContext.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { db, storage, app } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { db } from '../config/firebaseConfig.js';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
 import Feather from 'react-native-vector-icons/Feather';
 import { showCustomToast } from '../components/CustomToast.js';
-
-import { MY_USER_EMAIL, MY_USER_PASSWORD } from '@env';
 
 export default function LoginSignUpScreen() {
     const userContext = useContext(UserContext);
