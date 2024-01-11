@@ -31,11 +31,9 @@ export default function CreateOrganizerScreen({ navigation }) {
             showCustomToast({ type: 'success', text1: 'Success', text2: 'Organizer created!' });
             setLoading(false);
         } catch (error) {
-            console.log(error);
             showCustomToast({ type: 'error', text1: 'Error', text2: 'Something went wrong' });
             setLoading(false);
         }
-        console.log('New organizer with name: ' + name + ' created!');
     };
 
     const navigateToScreen = () => {
@@ -51,7 +49,6 @@ export default function CreateOrganizerScreen({ navigation }) {
     };
 
     const handleEmailSubmit = async () => {
-        console.log('Email submitted: ' + emailInput);
         const lowerCaseEmail = emailInput.toLowerCase();
         const emailDoc = doc(db, 'userData', lowerCaseEmail);
         const docSnap = await getDoc(emailDoc);

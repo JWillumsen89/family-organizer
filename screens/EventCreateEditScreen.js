@@ -186,7 +186,6 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             } catch (e) {
                 setIsLoading(false);
                 showCustomToast({ type: 'error', text1: 'Error!', text2: isEditing ? 'Event was not changed.' : 'Event was not added.' });
-                console.error('Error adding document: ', e);
             }
 
             // Move to the next day
@@ -204,6 +203,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
         setIsLoading(true);
         //Fetch and filter events
         try {
+            //Takes from events all events with the same parentEventId, flats it (if there is nested arrays) and filters out events that are not in the date range
             const allEventsWithSameParentId = Object.values(route.params?.events)
                 .flat()
                 .filter(event => event.parentEventId === parentEventId);
@@ -213,6 +213,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             );
 
             //Update or create events for each day
+            //Loop through each day in the date range and check if there is an event for that day already
             for (let date = new Date(startDate); date <= new Date(endDate); date.setDate(date.getDate() + 1)) {
                 const formattedDate = formatDate(date);
                 const existingEvent = validDateRangeEvents.find(event => event.day === formattedDate);
@@ -234,12 +235,11 @@ const EventCreateEditScreen = ({ navigation, route }) => {
                 await deleteEventInFirebase(event.id);
             }
 
-            setIsLoading(false);
             showCustomToast({ type: 'success', text1: 'Success!', text2: 'Event was edited.' });
         } catch (e) {
-            setIsLoading(false);
             showCustomToast({ type: 'error', text1: 'Error!', text2: 'Event was not edited.' });
-            console.error('Error updating document: ', e);
+        } finally {
+            setIsLoading(false);
         }
 
         navigateToScreen();
@@ -385,10 +385,10 @@ const EventCreateEditScreen = ({ navigation, route }) => {
             showCustomToast({ type: 'success', text1: 'Success!', text2: 'Event and related events deleted.' });
             navigateToScreen();
         } catch (error) {
-            console.error('Error deleting events: ', error);
             showCustomToast({ type: 'error', text1: 'Error!', text2: 'Failed to delete the event.' });
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     };
 
     const navigateToScreen = () => {
