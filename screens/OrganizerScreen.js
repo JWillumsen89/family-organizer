@@ -33,9 +33,7 @@ export default function OrganizerScreen({ navigation, route }) {
         const todayString = timeToString(today.getTime());
         setSelectedDay(todayString);
 
-        const monthName = today.toLocaleString('default', { month: 'long' });
-        const year = today.getFullYear();
-        setCurrentMonth(`${monthName} ${year}`);
+        setMonthName(today);
     }, []);
 
     useEffect(() => {
@@ -59,7 +57,6 @@ export default function OrganizerScreen({ navigation, route }) {
             }
 
             fetchDataOutsideFocusEffect = fetchData;
-
             fetchData();
 
             return () => {
@@ -97,10 +94,7 @@ export default function OrganizerScreen({ navigation, route }) {
         const newSelectedDay = timeToString(day.timestamp);
         setSelectedDay(newSelectedDay);
 
-        currentDate = new Date(day.timestamp);
-        const newMonthName = currentDate.toLocaleString('default', { month: 'long' });
-        const newYear = currentDate.getFullYear();
-        setCurrentMonth(newMonthName + ' ' + newYear);
+        setMonthName(new Date(day.timestamp));
     };
 
     const goToToday = () => {
@@ -108,8 +102,12 @@ export default function OrganizerScreen({ navigation, route }) {
         const todayString = timeToString(today.getTime());
         setSelectedDay(todayString);
 
-        const monthName = today.toLocaleString('default', { month: 'long' });
-        const year = today.getFullYear();
+        setMonthName(today);
+    };
+
+    const setMonthName = date => {
+        const monthName = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
         setCurrentMonth(`${monthName} ${year}`);
     };
 

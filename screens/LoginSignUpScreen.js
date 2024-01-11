@@ -62,6 +62,10 @@ export default function LoginSignUpScreen() {
             showCustomToast({ type: 'error', text1: 'Error', text2: 'Passwords do not match' });
             return;
         }
+        if (!validatePassword(password)) {
+            return;
+        }
+
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             showCustomToast({ type: 'success', text1: 'Success', text2: 'You are signed up and logged in!' });
@@ -87,6 +91,14 @@ export default function LoginSignUpScreen() {
             }
             showCustomToast({ type: 'error', text1: 'Sign Up Error', text2: errorMessage });
         }
+    };
+
+    const validatePassword = password => {
+        if (password.length < 6) {
+            showCustomToast({ type: 'error', text1: 'Error', text2: 'Password must be at least 6 digits ' });
+            return false;
+        }
+        return true;
     };
 
     return (
