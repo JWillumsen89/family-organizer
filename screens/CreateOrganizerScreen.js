@@ -1,29 +1,21 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, View, TouchableOpacity, ScrollView, ActivityIndicator, TextInput } from 'react-native';
 import { UserContext } from '../components/UserContext.js';
-import { DataContext } from '../components/DataContext.js';
 import { useTheme } from '../components/ThemeContext.js';
 import { getStyles } from '../styles/MainStyle.js';
-import { db, storage, app } from '../config/firebaseConfig.js';
-import { doc, setDoc, addDoc, getDocs, getDoc, collection, updateDoc, deleteDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { db } from '../config/firebaseConfig.js';
+import { doc, addDoc, getDoc, collection } from 'firebase/firestore';
 import Feather from 'react-native-vector-icons/Feather';
 import { showCustomToast } from '../components/CustomToast.js';
-import { isLoading } from 'expo-font';
 
 export default function CreateOrganizerScreen({ navigation }) {
     const { theme } = useTheme();
     const MainStyle = getStyles(theme);
     const userContext = useContext(UserContext);
-    const { organizers } = useContext(DataContext);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
     const [emailInput, setEmailInput] = useState('');
     const [verifiedEmails, setVerifiedEmails] = useState([]);
-
-    useEffect(() => {
-        setTimeout(() => setLoading(false), 1000);
-    }, []);
 
     const handleNewSubmit = async () => {
         setLoading(true);
@@ -121,7 +113,7 @@ export default function CreateOrganizerScreen({ navigation }) {
                             />
                             {validateEmail(emailInput) && (
                                 <TouchableOpacity style={MainStyle.addEmailButton} onPress={handleEmailSubmit}>
-                                    <Text>Add Email</Text>
+                                    <Text style={MainStyle.formButtonsText}>Add Email</Text>
                                 </TouchableOpacity>
                             )}
 

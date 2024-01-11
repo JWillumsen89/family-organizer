@@ -27,7 +27,7 @@ const dynamicFontSize = () => {
 
 function CustomDrawerContent(props) {
     const userContext = useContext(UserContext);
-    const { organizers } = useContext(DataContext);
+    const { organizers, setOrganizers } = useContext(DataContext);
     const { theme, toggleTheme } = useTheme();
 
     const iconName = theme === 'dark' ? 'moon' : 'sun';
@@ -40,6 +40,7 @@ function CustomDrawerContent(props) {
             name: null,
             isLoggedIn: false,
         };
+        setOrganizers([]);
         userContext.setUserData(userDataForStorage);
         AsyncStorage.removeItem('userData');
         showCustomToast({ type: 'success', text1: 'Success', text2: 'You are logged out!' });
@@ -158,7 +159,7 @@ export default function MyDrawer({ onLogout }) {
             }}
             drawerContent={props => <CustomDrawerContent {...props} onLogout={onLogout} toggleTheme={toggleTheme} />}
         >
-            <Drawer.Screen name="Home" component={HomeScreen} options={{ ...headerStyle, title: 'Home' }} />
+            <Drawer.Screen name="Home" component={HomeScreen} options={{ ...headerStyle, title: 'Family Organizer' }} />
             <Drawer.Screen name="TimelineScreen" component={TimelineScreen} options={{ ...headerStyle, title: 'Your Timeline' }} />
             <Drawer.Screen
                 name="EventCreateEditScreen"

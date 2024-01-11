@@ -13,7 +13,6 @@ export const darkThemeColors = {
 };
 
 export const lightThemeColors = {
-    // background: '#f0f4f8',
     background: '#ccebd2',
     primaryText: '#26413c',
     secondaryText: '#506f76',
@@ -61,8 +60,8 @@ export const getStyles = theme => {
             height: 60,
             borderRadius: 30,
             backgroundColor: themeColors.avatarBackground,
-            justifyContent: 'center', // Centrerer indholdet vertikalt
-            alignItems: 'center', // Centrerer indholdet horisontalt
+            justifyContent: 'center',
+            alignItems: 'center',
             marginBottom: 10,
         },
         avatarCircle: {
@@ -70,8 +69,8 @@ export const getStyles = theme => {
             height: 60,
             borderRadius: 30,
             backgroundColor: themeColors.avatarBackground,
-            justifyContent: 'center', // Centrerer indholdet vertikalt
-            alignItems: 'center', // Centrerer indholdet horisontalt
+            justifyContent: 'center',
+            alignItems: 'center',
             marginBottom: 10,
             marginLeft: 40,
         },
@@ -184,7 +183,7 @@ export const getStyles = theme => {
             backgroundColor: themeColors.inputFields,
         },
         organizerItem: {
-            backgroundColor: themeColors.background,
+            backgroundColor: themeColors.secondaryText,
             padding: 10,
             marginVertical: 5,
             borderRadius: 6,
@@ -198,11 +197,11 @@ export const getStyles = theme => {
             marginBottom: 5,
         },
         organizerItemTextStyle: {
-            color: themeColors.primaryText,
+            color: themeColors.background,
             fontSize: 16,
         },
         createdByYouOrganizerItem: {
-            backgroundColor: themeColors.background,
+            backgroundColor: themeColors.secondaryText,
             padding: 10,
             marginVertical: 5,
             borderRadius: 6,
@@ -227,25 +226,20 @@ export const getStyles = theme => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             color: themeColors.primaryText,
-            // other styling as needed
         },
         dayColumn: {
             flex: 1,
             color: themeColors.primaryText,
             borderWidth: 0.5,
             borderColor: themeColors.accent,
-            // other styling as needed
         },
         dateHeader: {
             fontWeight: 'bold',
             color: themeColors.primaryText,
             borderWidth: 0.5,
-            borderColor: themeColors.accent,
-            // other styling as needed
         },
         eventItem: {
             color: themeColors.primaryText,
-            // styling for individual event items
         },
         navigationControls: {
             flexDirection: 'row',
@@ -266,7 +260,6 @@ export const getStyles = theme => {
             color: themeColors.primaryText,
             borderWidth: 0.5,
             borderColor: themeColors.accent,
-            // other styling as needed
         },
         dateColumnHeader: {
             fontWeight: 'bold',
@@ -366,7 +359,6 @@ export const getStyles = theme => {
             color: themeColors.primaryText,
             fontSize: 14,
             fontWeight: 'bold',
-            // marginBottom: 5,
         },
         dropdown: {
             height: 40,
@@ -422,7 +414,6 @@ export const getStyles = theme => {
             width: '100%',
             marginBottom: 20,
             marginTop: 4,
-            // paddingHorizontal: 12,
         },
 
         rowInput: {
@@ -434,7 +425,7 @@ export const getStyles = theme => {
             color: themeColors.primaryText,
             backgroundColor: themeColors.inputFields,
             borderRadius: 4,
-            textAlign: 'center', // Center the text inside the input
+            textAlign: 'center',
         },
         formInput: {
             height: 40,
@@ -511,7 +502,6 @@ export const getStyles = theme => {
             marginHorizontal: 12,
             fontWeight: 'bold',
             opacity: 0.7,
-            // add a greyish smokey look
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.1,
@@ -541,7 +531,7 @@ export const getStyles = theme => {
             paddingRight: 5,
         },
         addEmailButton: {
-            backgroundColor: themeColors.accent,
+            backgroundColor: themeColors.secondaryText,
             padding: 10,
             borderRadius: 5,
             width: '28%',
@@ -555,6 +545,41 @@ export const getStyles = theme => {
             alignItems: 'center',
             padding: 10,
             backgroundColor: themeColors.background,
+        },
+        sectionContainer: {
+            width: '80%',
+            padding: 20,
+            marginBottom: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: themeColors.backgroundSection,
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: themeColors.accent,
+        },
+
+        sectionTitle: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            marginBottom: 10,
+        },
+
+        sectionDescription: {
+            textAlign: 'center',
+            marginBottom: 20,
+            color: themeColors.primaryText,
+        },
+
+        sectionButton: {
+            backgroundColor: themeColors.secondaryText,
+            padding: 10,
+            borderRadius: 5,
+        },
+
+        sectionButtonText: {
+            color: themeColors.background,
+            fontSize: 14,
+            fontWeight: 'bold',
         },
     }));
 };

@@ -95,9 +95,7 @@ const EventCreateEditScreen = ({ navigation, route }) => {
     }, [navigation, route.params, isEditing]);
 
     useEffect(() => {
-        // Only run this effect when creating a new event
         if (!isEditing) {
-            // Set end time to one hour after start time
             if (startTime) {
                 const [hours, minutes] = startTime.split(':').map(Number);
                 const endTime = new Date(2024, 0, 1, hours, minutes);
@@ -105,17 +103,15 @@ const EventCreateEditScreen = ({ navigation, route }) => {
                 setEndTime(formatTime(endTime));
             }
         }
-    }, [startTime, isEditing]); // Dependencies array includes startTime and isEditing
+    }, [startTime, isEditing]);
 
     useEffect(() => {
-        // Only run this effect when creating a new event
         if (!isEditing) {
-            // Set end date to the same as start date
             if (startDate) {
                 setEndDate(new Date(startDate));
             }
         }
-    }, [startDate, isEditing]); // Dependencies array includes startDate and isEditing
+    }, [startDate, isEditing]);
 
     const formatDate = date => {
         if (!date) return '';
